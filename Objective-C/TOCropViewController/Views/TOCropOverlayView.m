@@ -35,6 +35,10 @@ static const CGFloat kTOCropOverLayerCornerWidth = 20.0f;
 @property (nonatomic, strong) NSArray *bottomLeftLineViews;
 @property (nonatomic, strong) NSArray *bottomRightLineViews;
 @property (nonatomic, strong) NSArray *topRightLineViews;
+@property (nonatomic, strong) NSArray *topLineViews;
+@property (nonatomic, strong) NSArray *leftLineViews;
+@property (nonatomic, strong) NSArray *rightLineViews;
+@property (nonatomic, strong) NSArray *bottomLineViews;
 
 @end
 
@@ -62,6 +66,10 @@ static const CGFloat kTOCropOverLayerCornerWidth = 20.0f;
     _bottomLeftLineViews = @[newLineView(), newLineView()];
     _topRightLineViews  = @[newLineView(), newLineView()];
     _bottomRightLineViews = @[newLineView(), newLineView()];
+    _topLineViews = @[newLineView(), newLineView()];
+    _leftLineViews = @[newLineView(), newLineView()];
+    _rightLineViews = @[newLineView(), newLineView()];
+    _bottomLineViews = @[newLineView(), newLineView()];
     
     self.displayHorizontalGridLines = YES;
     self.displayVerticalGridLines = YES;
@@ -103,8 +111,9 @@ static const CGFloat kTOCropOverLayerCornerWidth = 20.0f;
     }
     
     //corner liness
-    NSArray *cornerLines = @[self.topLeftLineViews, self.topRightLineViews, self.bottomRightLineViews, self.bottomLeftLineViews];
-    for (NSInteger i = 0; i < 4; i++) {
+    NSArray *cornerLines = @[self.topLeftLineViews, self.topRightLineViews, self.bottomRightLineViews, self.bottomLeftLineViews,
+                             self.topLineViews, self.rightLineViews, self.bottomLineViews, self.leftLineViews];
+    for (NSInteger i = 0; i < 8; i++) {
         NSArray *cornerLine = cornerLines[i];
         
         CGRect verticalFrame = CGRectZero, horizontalFrame = CGRectZero;
@@ -124,6 +133,18 @@ static const CGFloat kTOCropOverLayerCornerWidth = 20.0f;
             case 3: //bottom left
                 verticalFrame = (CGRect){-3.0f,boundsSize.height-kTOCropOverLayerCornerWidth,3.0f,kTOCropOverLayerCornerWidth};
                 horizontalFrame = (CGRect){-3.0f,boundsSize.height,kTOCropOverLayerCornerWidth+3.0f,3.0f};
+                break;
+            case 4: // top:
+                horizontalFrame = (CGRect){(boundsSize.width/2)-kTOCropOverLayerCornerWidth/2,-3.0f,kTOCropOverLayerCornerWidth+3.0f,3.0f};
+                break;
+            case 5: // right:
+                verticalFrame = (CGRect){boundsSize.width,(boundsSize.height/2)-kTOCropOverLayerCornerWidth/2,3.0f,kTOCropOverLayerCornerWidth+3.0f};
+                break;
+            case 6: // bottom:
+                horizontalFrame = (CGRect){(boundsSize.width/2)-kTOCropOverLayerCornerWidth/2,boundsSize.height,kTOCropOverLayerCornerWidth+3.0f,3.0f};
+                break;
+            case 7: // left:
+                verticalFrame = (CGRect){-3.0f,(boundsSize.height/2)-kTOCropOverLayerCornerWidth/2,3.0f,kTOCropOverLayerCornerWidth+3.0f};
                 break;
         }
         
